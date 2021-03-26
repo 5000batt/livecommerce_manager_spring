@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: livecommerce_manager
+  profiles:    active: default
+  servlet:
+    multipart:      max-file-size: -1
+      max-request-size: -1
+  datasource:    url: jdbc:mysql://mysql-1.cqzajzqaevph.ap-northeast-2.rds.amazonaws.com/broadcast?useUnicode=true&characterEncoding=utf-8
+    username: admin
+    password: password123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    generate-ddl: true
+  redis:    host: 127.0.0.1
+    port: 6379
+    
+api:
+  base-path: http://localhost:8080                
