@@ -23,9 +23,10 @@ import lombok.NoArgsConstructor;
 public class Broadcast {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	@Column(columnDefinition = "TEXT")
+	private String name;
 	private String broadcastTitle;
 	private String channelId;
 	private String category;
