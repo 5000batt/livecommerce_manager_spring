@@ -16,11 +16,14 @@ public class BroadcastController {
 
 	private ProductRepository productRepo;
 	private BroadcastRepository broadcastRepo;
+	private CategoryRepository categoryRepo;
 
 	@Autowired
-	public BroadcastController(ProductRepository productRepo, BroadcastRepository broadcastRepo) {
+	public BroadcastController(ProductRepository productRepo, BroadcastRepository broadcastRepo,
+			CategoryRepository categoryRepo) {
 		this.productRepo = productRepo;
 		this.broadcastRepo = broadcastRepo;
+		this.categoryRepo = categoryRepo;
 	}
 
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
@@ -33,10 +36,39 @@ public class BroadcastController {
 		return broadcastRepo.findAll();
 	}
 
+	@RequestMapping(value = "/categorys", method = RequestMethod.GET)
+	public List<Category> getCategoryData() {
+		return categoryRepo.findAll();
+	}
+
 	@RequestMapping(value = "/broadcasts", method = RequestMethod.POST)
 	public Broadcast addBroadcast(@RequestBody Broadcast broadcast) {
 		broadcastRepo.save(broadcast);
 		return broadcast;
+	}
+
+	@RequestMapping(value = "/broadcasts/{id}", method = RequestMethod.PATCH)
+	public Broadcast modifyBroadcast(@PathVariable("id") long id, @RequestBody Broadcast broadcast,
+			HttpServletResponse res) {
+
+		Broadcast modBroadcast = broadcastRepo.findById(id).orElse(null);
+
+		if (modBroadcast == null) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+
+		modBroadcast.setBroadcastTitle(broadcast.getBroadcastTitle());
+		modBroadcast.setUnitPrice(broadcast.getUnitPrice());
+		modBroadcast.setCategory(broadcast.getCategory());
+		modBroadcast.setChannelId(broadcast.getChannelId());
+		modBroadcast.setProductName(broadcast.getProductName());
+		modBroadcast.setProductName(broadcast.getProductName());
+//		System.out.println(modBroadcast);
+
+		broadcastRepo.save(modBroadcast);
+
+		return modBroadcast;
 	}
 
 	@RequestMapping(value = "/broadcasts/{id}", method = RequestMethod.DELETE)

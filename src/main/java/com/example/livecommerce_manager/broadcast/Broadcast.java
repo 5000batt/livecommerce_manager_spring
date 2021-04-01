@@ -2,13 +2,16 @@ package com.example.livecommerce_manager.broadcast;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,13 +29,11 @@ public class Broadcast {
 	private long id;
 
 	@Column(columnDefinition = "TEXT")
-	private String name;
+	private String productName;
 	private String broadcastTitle;
+	private String imageUrl;
 	private String channelId;
 	private String category;
 	private int unitPrice;
 
-	@OneToMany
-	@JoinColumn(name = "broadcastId")
-	private List<Product> products;
 }
