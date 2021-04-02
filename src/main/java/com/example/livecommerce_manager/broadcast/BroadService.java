@@ -1,5 +1,6 @@
 package com.example.livecommerce_manager.broadcast;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,15 @@ public class BroadService {
 		this.rabbit = rabbit;
 	}
 
-	public void getProductData(Product product) {
-		System.out.println("---- PRODUCT LOG ----");
-		System.out.println(product);
+//	@RabbitListener(queues = "store.manager.product")
+//	public void getProductData(Product product) {
+//		System.out.println("---- PRODUCT LOG ----");
+//		System.out.println(product);
+//
+//		repo.save(product);
+//	}
 
-		repo.save(product);
-	}
-
-	public void sendRegistered(Broadcast broadcast) {
+	public void sendBroadcastData(Broadcast broadcast) {
 		System.out.println("---- BROADCAST LOG ----");
 		System.out.println(broadcast);
 
@@ -33,5 +35,4 @@ public class BroadService {
 			System.out.println(e.getMessage());
 		}
 	}
-
 }

@@ -1,5 +1,7 @@
 package com.example.livecommerce_manager.broadcast;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,13 +19,16 @@ public class BroadcastController {
 	private ProductRepository productRepo;
 	private BroadcastRepository broadcastRepo;
 	private CategoryRepository categoryRepo;
+	private final Path FILE_PATH = Paths.get("broadcast_file");
+	private BroadService service;
 
 	@Autowired
 	public BroadcastController(ProductRepository productRepo, BroadcastRepository broadcastRepo,
-			CategoryRepository categoryRepo) {
+			CategoryRepository categoryRepo, BroadService service) {
 		this.productRepo = productRepo;
 		this.broadcastRepo = broadcastRepo;
 		this.categoryRepo = categoryRepo;
+		this.service = service;
 	}
 
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
@@ -43,6 +48,7 @@ public class BroadcastController {
 
 	@RequestMapping(value = "/broadcasts", method = RequestMethod.POST)
 	public Broadcast addBroadcast(@RequestBody Broadcast broadcast) {
+
 		broadcastRepo.save(broadcast);
 		return broadcast;
 	}
@@ -63,7 +69,7 @@ public class BroadcastController {
 		modBroadcast.setCategory(broadcast.getCategory());
 		modBroadcast.setChannelId(broadcast.getChannelId());
 		modBroadcast.setProductName(broadcast.getProductName());
-		modBroadcast.setProductName(broadcast.getProductName());
+		modBroadcast.setImageUrl(broadcast.getImageUrl());
 //		System.out.println(modBroadcast);
 
 		broadcastRepo.save(modBroadcast);
@@ -86,4 +92,17 @@ public class BroadcastController {
 		return true;
 	}
 
+	@RequestMapping(value = "/register-broadcasts/{id}", method = RequestMethod.POST)
+	public boolean registerBroadcast(@PathVariable("id") long id, @RequestBody Broadcast broadcast,
+			HttpServletResponse res) {
+
+		Broadcast regBroadcast = broadcastRepo.findById(id).orElse(null);
+
+		if (regBroadcast == null) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return false;
+		}
+		service.sendBroadcastData(broadcast);
+		return true;
+	}
 }

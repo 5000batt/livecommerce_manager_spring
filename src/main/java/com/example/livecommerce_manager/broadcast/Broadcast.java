@@ -1,5 +1,7 @@
 package com.example.livecommerce_manager.broadcast;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -36,4 +38,7 @@ public class Broadcast {
 	private String category;
 	private int unitPrice;
 
+	@ManyToOne
+	@JoinColumn(name = "productId")
+	private Product product;
 }

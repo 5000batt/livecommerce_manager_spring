@@ -1,5 +1,7 @@
 package com.example.livecommerce_manager.broadcast;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -31,8 +33,4 @@ public class Product {
 	private String imageUrl;
 	private int unitPrice;
 	private String businessNumber;
-
-	@OneToMany
-	@JoinColumn(name = "productId")
-	private List<Broadcast> broadcast;
 }
