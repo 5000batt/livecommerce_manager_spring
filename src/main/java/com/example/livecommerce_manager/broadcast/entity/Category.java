@@ -1,4 +1,4 @@
-package com.example.livecommerce_manager.broadcast;
+package com.example.livecommerce_manager.broadcast.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
