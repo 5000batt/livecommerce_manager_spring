@@ -11,15 +11,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @Builder @AllArgsConstructor @NoArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class BroadcastFile {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String fileName;
 	private String contentType;
 	private long broadcastId;
-	
+
+	public String getDataUrl() {
+		return "http://localhost:8080" + "/broadcast-files/" + this.id;
+	}
+
 	@Transient
 	private String dataUrl;
 }

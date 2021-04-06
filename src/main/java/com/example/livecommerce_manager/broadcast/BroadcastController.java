@@ -2,6 +2,7 @@ package com.example.livecommerce_manager.broadcast;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,11 +55,13 @@ public class BroadcastController {
 		this.service = service;
 	}
 
+	// 상품조회
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public Product getProductData(@RequestParam("businessNumber") String businessNumber) {
-		return productRepo.findByBusinessNumber(businessNumber);
+	public List<Product> getProductData() {
+		return productRepo.findAll();
 	}
 
+	// 방송조회
 	@RequestMapping(value = "/broadcasts", method = RequestMethod.GET)
 	public List<Broadcast> getBroadcastData() {
 		List<Broadcast> list = broadcastRepo.findAll(Sort.by("id").descending());
@@ -69,11 +73,13 @@ public class BroadcastController {
 		return list;
 	}
 
+	// 카테고리조회
 	@RequestMapping(value = "/categorys", method = RequestMethod.GET)
 	public List<Category> getCategoryData() {
 		return categoryRepo.findAll();
 	}
 
+	// 방송추가
 	@RequestMapping(value = "/broadcasts", method = RequestMethod.POST)
 	public Broadcast addBroadcast(@RequestBody Broadcast broadcast) {
 
@@ -81,6 +87,7 @@ public class BroadcastController {
 		return broadcast;
 	}
 
+	// 방송수정
 	@RequestMapping(value = "/broadcasts/{id}", method = RequestMethod.PATCH)
 	public Broadcast modifyBroadcast(@PathVariable("id") long id, @RequestBody Broadcast broadcast,
 			HttpServletResponse res) {
@@ -105,6 +112,7 @@ public class BroadcastController {
 		return modBroadcast;
 	}
 
+	// 방송삭제
 	@RequestMapping(value = "/broadcasts/{id}", method = RequestMethod.DELETE)
 	public boolean removeBroadcast(@PathVariable("id") long id, HttpServletResponse res) {
 
@@ -115,11 +123,17 @@ public class BroadcastController {
 			return false;
 		}
 
+		List<BroadcastFile> files = broadcastFileRepo.findByBroadcastId(id);
+		for (BroadcastFile file : files) {
+			broadcastFileRepo.delete(file);
+		}
+
 		broadcastRepo.deleteById(id);
 
 		return true;
 	}
 
+	// 방송이미지 추가
 	@RequestMapping(value = "/broadcasts/{id}/broadcast-files", method = RequestMethod.POST)
 	public BroadcastFile addBroadcastFile(@PathVariable("id") long id, @RequestPart("data") MultipartFile file,
 			HttpServletResponse res) throws IOException {
@@ -140,6 +154,59 @@ public class BroadcastController {
 				.contentType(file.getContentType()).build();
 		broadcastFileRepo.save(broadcastFile);
 		return broadcastFile;
+	}
+
+	// 방송이미지 삭제
+	@RequestMapping(value = "/broadcasts/{id}/broadcast-files", method = RequestMethod.DELETE)
+	public boolean removeBroadcastFiles(@PathVariable("id") long id, HttpServletResponse res) {
+
+		if (broadcastRepo.findById(id).orElse(null) == null) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return false;
+		}
+
+		List<BroadcastFile> broadcastFiles = broadcastFileRepo.findByBroadcastId(id);
+		for (BroadcastFile broadcastFile : broadcastFiles) {
+			broadcastFileRepo.delete(broadcastFile);
+			File file = new File(broadcastFile.getFileName());
+			if (file.exists()) {
+				file.delete();
+			}
+		}
+		return true;
+	}
+
+	// 목록 조회
+	@RequestMapping(value = "/broadcasts/{id}/broadcast-files", method = RequestMethod.GET)
+	public List<BroadcastFile> getBroadcastFiles(@PathVariable("id") long id, HttpServletResponse res) {
+
+		if (broadcastRepo.findById(id).orElse(null) == null) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+
+		List<BroadcastFile> broadcastFiles = broadcastFileRepo.findByBroadcastId(id);
+
+		return broadcastFiles;
+	}
+
+	@RequestMapping(value = "/broadcast-files/{id}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> getBroadFile(@PathVariable("id") long id, HttpServletResponse res)
+			throws IOException {
+		BroadcastFile broadcastFile = broadcastFileRepo.findById(id).orElse(null);
+
+		if (broadcastFile == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("Content-Type", broadcastFile.getContentType() + ";charset=UTF-8");
+		responseHeaders.set("Content-Disposition",
+				"inline; filename=" + URLEncoder.encode(broadcastFile.getFileName(), "UTF-8"));
+
+		return ResponseEntity.ok().headers(responseHeaders)
+				.body(Files.readAllBytes(FILE_PATH.resolve(broadcastFile.getFileName())));
+
 	}
 
 	@RequestMapping(value = "/register-broadcasts/{id}", method = RequestMethod.POST)

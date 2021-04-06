@@ -41,6 +41,6 @@ public class Broadcast {
 	private Product product;
 
 	@OneToMany
-	@JoinColumn(name = "feedId")
+	@JoinColumn(name = "broadcastId")
 	private List<BroadcastFile> files;
 }
