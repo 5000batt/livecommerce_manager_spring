@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.livecommerce_manager.broadcast.BroadcastFile;
+import com.example.livecommerce_manager.broadcast.entity.BroadcastFile;
 
 @Repository
 public interface BroadcastFileRepository extends JpaRepository<BroadcastFile, Long>{

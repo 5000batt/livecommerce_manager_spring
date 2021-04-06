@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.example.livecommerce_manager.broadcast.BroadcastFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

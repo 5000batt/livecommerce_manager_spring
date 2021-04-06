@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.livecommerce_manager.broadcast.entity.Broadcast;
+import com.example.livecommerce_manager.broadcast.entity.BroadcastFile;
 import com.example.livecommerce_manager.broadcast.entity.Category;
 import com.example.livecommerce_manager.broadcast.entity.Product;
 import com.example.livecommerce_manager.broadcast.repository.BroadcastFileRepository;
@@ -133,7 +134,7 @@ public class BroadcastController {
 		return true;
 	}
 
-	// 방송이미지 추가
+	// 파일 추가
 	@RequestMapping(value = "/broadcasts/{id}/broadcast-files", method = RequestMethod.POST)
 	public BroadcastFile addBroadcastFile(@PathVariable("id") long id, @RequestPart("data") MultipartFile file,
 			HttpServletResponse res) throws IOException {
@@ -156,7 +157,7 @@ public class BroadcastController {
 		return broadcastFile;
 	}
 
-	// 방송이미지 삭제
+	// 파일 목록 삭제
 	@RequestMapping(value = "/broadcasts/{id}/broadcast-files", method = RequestMethod.DELETE)
 	public boolean removeBroadcastFiles(@PathVariable("id") long id, HttpServletResponse res) {
 
@@ -176,7 +177,7 @@ public class BroadcastController {
 		return true;
 	}
 
-	// 목록 조회
+	// 파일 목록 조회
 	@RequestMapping(value = "/broadcasts/{id}/broadcast-files", method = RequestMethod.GET)
 	public List<BroadcastFile> getBroadcastFiles(@PathVariable("id") long id, HttpServletResponse res) {
 
