@@ -3,9 +3,12 @@ server:
   
 spring:
   application:
-    name: livecommerce_manager
+    name: livecommerce-manager
   profiles:
     active: default
+    include:
+    - aws
+    - credentials
   servlet:
     multipart:
       max-file-size: -1
@@ -23,9 +26,7 @@ spring:
         order_inserts: true
         order_updates: true
         jdbc: 
-          batch_size: 5
-          
-            
+          batch_size: 5       
   redis:
     host: 127.0.0.1
     port: 6379
@@ -33,6 +34,29 @@ spring:
     host: ec2-13-124-232-201.ap-northeast-2.compute.amazonaws.com
     username: rabbitmq
     password: password123
+
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: http://192.168.0.24:8761/eureka/
+#  instance:
+#    hostname: 192.168.0.24
     
 api:
   base-path: http://localhost:8080
+  
+---
+spring:
+  profiles: prod
+
+# nohup java -jar -Dspring.profiles.active=prod kjw-0.0.1-SNAPSHOT.jar >> kjw.log &
+
+eureka:
+  client:
+    service-url:
+      # 유레카의 ec2 주소
+      defaultZone: http://52.78.12.251:8761/eureka/
+  instance:
+    # 본인 서비스의 ec2 주소
+    hostname: 3.34.97.143
+  
