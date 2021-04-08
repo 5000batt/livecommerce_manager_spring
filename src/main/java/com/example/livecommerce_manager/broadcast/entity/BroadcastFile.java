@@ -24,9 +24,9 @@ public class BroadcastFile {
 	private String contentType;
 	private long broadcastId;
 
-	public String getDataUrl() {
-		return "http://localhost:8080" + "/broadcast-files/" + this.id;
-	}
+//	public String getDataUrl() {
+//		return "http://localhost:8080" + "/broadcast-files/" + this.id;
+//	}
 
 	@Transient
 	private String dataUrl;
