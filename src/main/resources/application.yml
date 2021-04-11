@@ -29,12 +29,12 @@ spring:
     username: rabbitmq
     password: password123
 
-eureka:
-  client:
-    service-url:
-      default-zone: http://192.168.0.24:8761/eureka/
-  instance:
-    hostname: 192.168.0.24
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: http://192.168.0.24:8761/eureka/
+#  instance:
+#    hostname: 192.168.0.24
       
 api:
   base-path: http://localhost:8080
@@ -45,14 +45,14 @@ spring:
 
 # nohup java -jar -Dspring.profiles.active=prod livecommerce_manager-0.0.1-SNAPSHOT.jar >> livecommerce_manager.log &
 
-eureka:
-  client:
-    service-url:
-      # 유레카의 ec2 주소
-      defaultZone: http://52.78.12.251:8761/eureka/
-  instance:
-    # 본인 서비스의 ec2 주소
-    hostname: 3.34.97.143
+#eureka:
+#  client:
+#    service-url:
+#      # 유레카의 ec2 주소
+#      defaultZone: http://52.78.12.251:8761/eureka/
+#  instance:
+#    # 본인 서비스의 ec2 주소
+#    hostname: 3.34.97.143
 
 api:
-  base-path: http://ec2-3-34-97-143.ap-northeast-2.compute.amazonaws.com:8080
+  base-path: https://a552eubt4h.execute-api.ap-northeast-2.amazonaws.com/v1/livecommerce-manager

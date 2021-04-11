@@ -25,9 +25,9 @@ public class BroadcastFile {
 	private long broadcastId;
 
 //	public String getDataUrl() {
-//		return "http://localhost:8080" + "/broadcast-files/" + this.id;
+//		return "https://a552eubt4h.execute-api.ap-northeast-2.amazonaws.com/v1/livecommerce-manager"
+//				+ "/broadcast-files/" + this.id;
 //	}
 
-	@Transient
 	private String dataUrl;
 }

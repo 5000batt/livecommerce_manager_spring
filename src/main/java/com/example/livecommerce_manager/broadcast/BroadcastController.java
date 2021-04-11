@@ -70,8 +70,10 @@ public class BroadcastController {
 		for (Broadcast broadcast : list) {
 			for (BroadcastFile file : broadcast.getFiles()) {
 				file.setDataUrl(apiConfig.getBasePath() + "/broadcast-files/" + file.getId());
+//				broadcastFileRepo.save(file);
 			}
 		}
+
 		return list;
 	}
 
@@ -215,9 +217,9 @@ public class BroadcastController {
 	public boolean registerBroadcast(@PathVariable("id") long id, @RequestBody Broadcast broadcast,
 			HttpServletResponse res) {
 
-		Broadcast regBroadcast = broadcastRepo.findById(id).orElse(null);
+//		Broadcast regBroadcast = broadcastRepo.findById(id).orElse(null);
 
-		if (regBroadcast == null) {
+		if (broadcast == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return false;
 		}

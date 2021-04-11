@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,9 +33,10 @@ public class Broadcast {
 	private String images;
 	private String channelId;
 	private String category;
+	private String productUri;
 	private int price;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "productId")
 	private Product product;
 

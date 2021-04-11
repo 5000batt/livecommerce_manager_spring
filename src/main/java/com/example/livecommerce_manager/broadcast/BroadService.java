@@ -51,10 +51,6 @@ public class BroadService {
 		System.out.println("---- BROADCAST LOG ----");
 		System.out.println(broadcast);
 
-		try {
-			rabbit.convertAndSend("amq.topic", "mdm.product", broadcast);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		rabbit.convertAndSend("commerce.broadcast", broadcast);
 	}
 }
