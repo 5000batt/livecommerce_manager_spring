@@ -217,8 +217,6 @@ public class BroadcastController {
 	public boolean registerBroadcast(@PathVariable("id") long id, @RequestBody Broadcast broadcast,
 			HttpServletResponse res) {
 
-//		Broadcast regBroadcast = broadcastRepo.findById(id).orElse(null);
-
 		if (broadcast == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return false;

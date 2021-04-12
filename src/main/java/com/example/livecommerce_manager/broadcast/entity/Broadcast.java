@@ -35,6 +35,7 @@ public class Broadcast {
 	private String category;
 	private String productUri;
 	private int price;
+	private boolean state;
 
 	@OneToOne
 	@JoinColumn(name = "productId")
