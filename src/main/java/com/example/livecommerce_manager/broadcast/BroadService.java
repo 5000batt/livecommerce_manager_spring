@@ -33,8 +33,8 @@ public class BroadService {
 //	}
 
 	@RabbitListener(bindings = {
-			@QueueBinding(exchange = @Exchange(name = "amq.topic", type = "topic"), value = @Queue(value = "mdm.product.1"), key = {
-					"mdm.product" }), })
+			@QueueBinding(exchange = @Exchange(name = "amq.topic", type = "topic"), value = @Queue(value = "dw.product.1"), key = {
+					"dw.product" }), })
 	public void receiveProduct1(Product product) {
 		System.out.println("--product.1 --");
 		System.out.println(product);
