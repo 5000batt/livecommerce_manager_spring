@@ -52,7 +52,7 @@ eureka:
       defaultZone: http://52.78.12.251:8761/eureka/
   instance:
     # 본인 서비스의 ec2 주소
-    hostname: 3.34.97.143
+    hostname: 13.124.171.67
 
 api:
   base-path: https://a552eubt4h.execute-api.ap-northeast-2.amazonaws.com/v1/livecommerce-manager
